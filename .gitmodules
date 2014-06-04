@@ -1,8 +1,8 @@
 [submodule "FreeSHR-Playbooks"]
 	path = FreeSHR-Playbooks
-	url = git@github.com:SharedHealth/FreeSHR-Playbooks.git
+	url = https://github.com/SharedHealth/FreeSHR-Playbooks.git
 	branch = master
 [submodule "openmrs-module-bdshrclient"]
 	path = openmrs-module-bdshrclient
-	url = git@github.com:SharedHealth/openmrs-module-bdshrclient.git
+	url = https://github.com/SharedHealth/openmrs-module-bdshrclient.git
 	branch = master
