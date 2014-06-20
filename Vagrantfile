@@ -6,39 +6,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.define "server" do |server|
-    server.vm.box = "centos"
-    server.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
-    server.vm.network :private_network, ip: "192.168.33.17"
-    server.vm.provider :virtualbox do |vb|
-        vb.customize ["modifyvm", :id, "--memory", "2048", "--cpus", "2"]
-    end
-    # Install server package
-    server.vm.provision :ansible do |ansible|
-      ansible.verbose = "v"
-      ansible.extra_vars = {ansible_ssh_user: 'vagrant', ansible_ssh_port: 2222, mysql_password: "password", mysql_username: "root", rpm: "../../build/distributions/bdshr-terminology-server-0.1.noarch.rpm"}
-      ansible.playbook = "FreeSHR-Playbooks/terminologyserver/deploy.yml"
-      ansible.inventory_path = "./hosts"
-      ansible.limit = "all"
-    end
-    #Install the atom feed omod
-    server.vm.provision :ansible do |ansible|
-      ansible.verbose = "v"
-      ansible.extra_vars = {ansible_ssh_user: 'vagrant', ansible_ssh_port: 2222, omod: "../../openmrs-atomfeed/openmrs-atomfeed-omod/target/openmrs-atomfeed-2.0-SNAPSHOT.omod"}
-      ansible.playbook = "FreeSHR-Playbooks/terminologyserver/deploy-omod.yml"
-      ansible.inventory_path = "./hosts"
-      ansible.limit = "all"
-    end
-    #Install the server omod
-    server.vm.provision :ansible do |ansible|
-      ansible.verbose = "v"
-      ansible.extra_vars = {ansible_ssh_user: 'vagrant', ansible_ssh_port: 2222, omod: "../../openmrs-module-freeshr_terminology_feed/omod/target/freeshr-terminology-feed-1.0-SNAPSHOT.omod"}
-      ansible.playbook = "FreeSHR-Playbooks/terminologyserver/deploy-omod.yml"
-      ansible.inventory_path = "./hosts"
-      ansible.limit = "all"
-    end
-  end
-
   config.vm.define "client" do |client|
     client.vm.box = "centos"
     client.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
@@ -46,12 +13,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     client.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", "2048", "--cpus", "2"]
     end
+
+    print "Enter go server username: "
+    username = STDIN.gets
+    print "enter go server password "
+    password = STDIN.gets
+
     client.vm.provision :ansible do |ansible|
-      ansible.verbose = "vvv"
-      ansible.extra_vars = {ansible_ssh_user: 'vagrant', ansible_ssh_port: 2222, omod: "../../openmrs-module-freeshr_terminology_feed/omod/target/freeshr-terminology-feed-1.0-SNAPSHOT.omod"}
-      ansible.playbook = "FreeSHR-Playbooks/bahmni/site.yml"
-      ansible.inventory_path = "./hosts"
-      ansible.limit = "all"
+        ansible.verbose = "vvv"
+        ansible.extra_vars = {config: File.dirname(__FILE__) + "/bd-config/target/bd_config.zip", go_admin: username, go_password: password}
+        ansible.skip_tags = ["go-deploy"]
+        ansible.playbook = "FreeSHR-Playbooks/bahmni-servers.yml"
+        ansible.inventory_path = "./hosts"
+        ansible.limit = "all"
+    end
+
+    client.vm.provision :ansible do |ansible|
+        ansible.verbose = "vvv"
+        ansible.extra_vars = {all_omods: File.dirname(__FILE__) + "/openmrs-module-terminology_atomfeed_client/target/openmrs-module-terminology_atomfeed_client-1.0-SNAPSHOT.omod"}
+        ansible.playbook = "FreeSHR-Playbooks/tr-feed-clients.yml"
+        ansible.inventory_path = "./hosts"
+        ansible.limit = "all"
     end
   end
 
