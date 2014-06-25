@@ -7,8 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "client" do |client|
-    client.vm.box = "centos65"
-    client.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box"
+    client.vm.box = "centos_large"
     client.vm.network :private_network, ip: "192.168.33.18"
     client.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", "2048", "--cpus", "2"]
