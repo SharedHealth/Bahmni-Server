@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     client.vm.provision :ansible do |ansible|
         ansible.verbose = "vvv"
-        ansible.extra_vars = {config: File.dirname(__FILE__) + "/bd-config/target/bd_config.zip"}
+        ansible.extra_vars = {configfile: File.dirname(__FILE__) + "/bd-config/target/bd_config.zip"}
 
         ansible.playbook = "FreeSHR-Playbooks/bahmni-servers.yml"
         ansible.inventory_path = "./hosts"
