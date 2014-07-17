@@ -19,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         ansible.playbook = "FreeSHR-Bahmni-Playbooks/bahmni-servers.yml"
         ansible.inventory_path = "./hosts"
+        ansible.skip_tags = ["el"]
         ansible.limit = "all"
     end
 
