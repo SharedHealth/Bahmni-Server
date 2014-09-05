@@ -5,9 +5,9 @@
 [submodule "openmrs-module-terminology_atomfeed_client"]
 	path = openmrs-module-terminology_atomfeed_client
 	url = https://github.com/SharedHealth/openmrs-module-terminology_atomfeed_client.git
-[submodule "bd-config"]
-	path = bd-config
-	url = https://github.com/SharedHealth/bd-config.git
 [submodule "FreeSHR-Bahmni-Playbooks"]
 	path = FreeSHR-Bahmni-Playbooks
 	url = https://github.com/SharedHealth/FreeSHR-Bahmni-Playbooks.git
+[submodule "bdshr-config"]
+	path = bdshr-config
+	url = git@github.com:SharedHealth/bdshr-config.git
