@@ -1,8 +1,11 @@
 Steps to install Bahmni (OpenMRS and OpenELIS): (SHR omods won't be installed)
 
 > git clone --recursive https://github.com/SharedHealth/Bahmni-Server.git
+
 > cd Bahmni_Server
+
 > cd bdshr_config && ./scripts/package.sh
+
 > cd .. && vagrant up --no-provision
 
 Bahmni recommends disk space of min 30GB (https://gist.github.com/christopher-hopper/9755310)
