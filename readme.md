@@ -16,4 +16,6 @@ On host machine /var/lib/bahmni/release/bahmni-{{release_version}}.zip should be
 
 > vagrant provision
 
-Manual steps - https://sharedhealth.atlassian.net/wiki/display/docs/Manual+steps+after+new+bahmni+installation
+For Bahmni release 5.0, copy webservices.rest-2.6-SNAPSHOT.omod (from blrfs01/teamshares/bangladesh) to /home/bahmni/.OpenMRS/modules (guest machine) and restart tomcat. 
+
+More manual steps - https://sharedhealth.atlassian.net/wiki/display/docs/Manual+steps+after+new+bahmni+installation
